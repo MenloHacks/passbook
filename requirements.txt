@@ -1,3 +1,3 @@
-M2Crypto
+-e git+https://github.com/Hypernode/M2Crypto#egg=M2Crypto-0.22.dev
 pytest
 path.py
