@@ -314,8 +314,7 @@ class Pass(object):
         pass_json = self._createPassJson()
         manifest = self._createManifest(pass_json)
         signature = self._createSignature(manifest, certificate, key, wwdr_certificate, password)
-        if not zip_file:
-            zip_file = StringIO()
+        zip_file = StringIO()
         return self._createZip(pass_json, manifest, signature)
 
     def _createPassJson(self):
