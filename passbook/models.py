@@ -316,8 +316,7 @@ class Pass(object):
         signature = self._createSignature(manifest, certificate, key, wwdr_certificate, password)
         if not zip_file:
             zip_file = StringIO()
-        self._createZip(pass_json, manifest, signature, zip_file=zip_file)
-        return zip_file
+        return self._createZip(pass_json, manifest, signature, zip_file=zip_file)
 
     def _createPassJson(self):
         return json.dumps(self, default=PassHandler)
@@ -356,13 +355,15 @@ class Pass(object):
 
     # Creates .pkpass (zip archive)
     def _createZip(self, pass_json, manifest, signature, zip_file=None):
-        zf = zipfile.ZipFile(zip_file or 'pass.pkpass', 'w')
+        in_memory_output_file = StringIO()
+        zf = ZipFile(inMemoryOutputFile, 'w') 
         zf.writestr('signature', signature)
         zf.writestr('manifest.json', manifest)
         zf.writestr('pass.json', pass_json)
         for filename, filedata in self._files.items():
             zf.writestr(filename, filedata)
         zf.close()
+        return in_memory_output_file.seek(0)
 
     def json_dict(self):
         d = {
