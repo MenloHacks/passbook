@@ -12,6 +12,7 @@ except ImportError:
 
 import hashlib
 import zipfile
+from zipfile import ZipFile
 import decimal
 
 from M2Crypto import SMIME
