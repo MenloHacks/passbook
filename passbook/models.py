@@ -315,7 +315,6 @@ class Pass(object):
         pass_json = self._createPassJson()
         manifest = self._createManifest(pass_json)
         signature = self._createSignature(manifest, certificate, key, wwdr_certificate, password)
-        zip_file = StringIO()
         return self._createZip(pass_json, manifest, signature)
 
     def _createPassJson(self):
@@ -363,7 +362,7 @@ class Pass(object):
         for filename, filedata in self._files.items():
             zf.writestr(filename, filedata)
         zf.close()
-        return in_memory_output_file.seek(0)
+        return in_memory_output_file
 
     def json_dict(self):
         d = {
