@@ -310,13 +310,13 @@ class Pass(object):
         self._files[name] = fd.read()
 
     # Creates the actual .pkpass file
-    def create(self, certificate, key, wwdr_certificate, password, zip_file=None):
+    def create(self, certificate, key, wwdr_certificate, password):
         pass_json = self._createPassJson()
         manifest = self._createManifest(pass_json)
         signature = self._createSignature(manifest, certificate, key, wwdr_certificate, password)
         if not zip_file:
             zip_file = StringIO()
-        return self._createZip(pass_json, manifest, signature, zip_file=zip_file)
+        return self._createZip(pass_json, manifest, signature)
 
     def _createPassJson(self):
         return json.dumps(self, default=PassHandler)
@@ -354,7 +354,7 @@ class Pass(object):
         return der
 
     # Creates .pkpass (zip archive)
-    def _createZip(self, pass_json, manifest, signature, zip_file=None):
+    def _createZip(self, pass_json, manifest, signature):
         in_memory_output_file = StringIO()
         zf = ZipFile(inMemoryOutputFile, 'w') 
         zf.writestr('signature', signature)
